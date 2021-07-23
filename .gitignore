@@ -1,0 +1,5 @@
+build/
+dist/
+get_metadata.egg-info/
+
+*.sh

@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="get_metadata",
-    version="0.0.4",
+    version="0.0.5",
     author="Hisashi Murai",
     author_email="xyksp956@yahoo.co.jp",
     description="Get metadata string. Works on GAE(Google App Engine), GCF(Google Cloud Functions), and the others.",

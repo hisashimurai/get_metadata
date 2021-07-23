@@ -8,7 +8,7 @@ For the detail, see https://cloud.google.com/appengine/docs/standard/java/access
 pip install get_metadata
 ~~~
 
-## OR Write `get_metadata` on requirements.txt
+## OR Write `get_metadata` in requirements.txt.
 
 ~~~
 # requirements.txt sample

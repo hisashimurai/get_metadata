@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-"""GAE/GCF等で、メタデータサーバから値を取得する
+"""Get metadata string. Works on GAE, GCF, and the others.
 
-GAE GCFのPython 対応ライブラリに合わせて、Python 3.7+に対応
+Python 3.7+ required.
 
 """
 from __future__ import annotations
@@ -11,67 +11,49 @@ import urllib.request, urllib.error
 
 METADATA: dict[str, str] = {}
 
-# https://cloud.google.com/appengine/docs/standard/java/accessing-instance-metadata?hl=ja
+# https://cloud.google.com/appengine/docs/standard/java/accessing-instance-metadata
 key_list: dict[str, str] = {
-    # プロジェクトに割り当てられているプロジェクト番号。
+    # The project number assigned to your project.
     "numeric_project_id": "/computeMetadata/v1/project/numeric-project-id",
-    # プロジェクトに割り当てられているプロジェクト ID。
+    # The project ID assigned to your project.
     "project_id": "/computeMetadata/v1/project/project-id",
-    # インスタンスが実行されているゾーン。
+    # The zone the instance is running in.
     "zone": "/computeMetadata/v1/instance/zone",
-    # no comments
+    # no description
     "aliases": "/computeMetadata/v1/instance/service-accounts/default/aliases",
-    # プロジェクトに割り当てられているデフォルトのサービス アカウントのメール。
+    # The default service account email assigned to your project.
     "email": "/computeMetadata/v1/instance/service-accounts/default/email",
-    # プロジェクトのすべてのデフォルトのサービス アカウントを一覧表示します。
+    # Lists all the default service accounts for your project.
     "service-accounts": "/computeMetadata/v1/instance/service-accounts/default/",
-    # デフォルトのサービス アカウントでサポートされているすべてのスコープを一覧表示します。
+    # Lists all the supported scopes for the default service accounts.
     "scopes": "/computeMetadata/v1/instance/service-accounts/default/scopes",
-    # アプリケーションを他の Google Cloud APIs に認証させるための認証トークンを返します。
+    # Returns the auth token that can be used to authenticate your application to other Google Cloud APIs.
     "token": "/computeMetadata/v1/instance/service-accounts/default/token",
 }
 
 
 def get_metadata(key: str) -> str | None:
-    """キーで指定したメタデータを取得する
+    """Get metadata string. Works on GAE, GCF, and the others.
 
-    GAE/GCFで使用するためのもの。
-    https://cloud.google.com/appengine/docs/standard/java/accessing-instance-metadata?hl=ja
+    This file will be used on GAE/GCF/others.
+    https://cloud.google.com/appengine/docs/standard/java/accessing-instance-metadata
 
     Args:
-        key (str): メタデータのURL、または以下に示すエイリアス
+        key (str): Metadata endpoint or a key of key_list(see below).
 
     Returns:
-        str: メタデータサーバからの応答内容
+        str: return string from metadata server.
 
     Note:
-        keyはメタデータサーバのURL(http://metadata.google.internal を除いたもの)
-        または、以下のdictのkeyを指定すると、そのvalueが指定されたとみなす
-
-        プロジェクトに割り当てられているプロジェクト番号。
-        numeric_project_id: /computeMetadata/v1/project/numeric-project-id"
-
-        プロジェクトに割り当てられているプロジェクト ID。
-        project_id: /computeMetadata/v1/project/project-id
-
-        インスタンスが実行されているゾーン。
-        zone: /computeMetadata/v1/instance/zone
-
-        no comments
-        aliases: /computeMetadata/v1/instance/service-accounts/default/aliases
-
-        プロジェクトに割り当てられているデフォルトのサービス アカウントのメール。
-        email: /computeMetadata/v1/instance/service-accounts/default/email
-
-        プロジェクトのすべてのデフォルトのサービス アカウントを一覧表示します。
-        service-accounts: /computeMetadata/v1/instance/service-accounts/default/
-
-        デフォルトのサービス アカウントでサポートされているすべてのスコープを一覧表示します。
-        scopes: /computeMetadata/v1/instance/service-accounts/default/scopes
-
-        アプリケーションを他の Google Cloud APIs に認証させるための認証トークンを返します。
-        token: /computeMetadata/v1/instance/service-accounts/default/token
-
+        key_list
+            numeric_project_id: /computeMetadata/v1/project/numeric-project-id
+            project_id: /computeMetadata/v1/project/project-id
+            zone: /computeMetadata/v1/instance/zone
+            aliases: /computeMetadata/v1/instance/service-accounts/default/aliases
+            email: /computeMetadata/v1/instance/service-accounts/default/email
+            service-accounts: /computeMetadata/v1/instance/service-accounts/default/
+            scopes: /computeMetadata/v1/instance/service-accounts/default/scopes
+            token: /computeMetadata/v1/instance/service-accounts/default/token
     """
     global METADATA, key_list
     if key in key_list.keys():

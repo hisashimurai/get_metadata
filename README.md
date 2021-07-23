@@ -1,5 +1,5 @@
 # get_metadata
-Get metadata on GAE, GCF, and others.
+Get metadata string. Works on GAE(Google App Engine), GCF(Google Cloud Functions), and the others.
 For the detail, see https://cloud.google.com/appengine/docs/standard/java/accessing-instance-metadata
 
 
@@ -11,18 +11,22 @@ pip install get_metadata
 ## OR Write `get_metadata` on requirements.txt
 
 ~~~
-# requirements.txt
-Flask
+# requirements.txt sample
+Flask  # sample
 get_metadata
-google-cloud-storage
+google-cloud-storage  # sample
 ~~~
 
 
 ## How to use
 ~~~python
 from get_metadata import get_metadata
+
 key = "project_id"
-pid = get_metadata(key)
+project_id = get_metadata(key)
+
+key2 = "/computeMetadata/v1/instance/service-accounts/default/"
+service_accounts = get_metadata(key2)
 ~~~
 
 key accepts a key of key_list(see below) or metadata endpoint.
